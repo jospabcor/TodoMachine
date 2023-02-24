@@ -14,10 +14,23 @@ function TodoProvider(props) {
     
      
       const [searchValue, setSearchValue] = React.useState('');
+      const [openModal, setOpenModal] = React.useState(false);
+
       const completedTodos = todos.filter(todo => todo.completed).length;
       const totalTodos = todos.length;
       const filteredTodos = todos.filter(todo =>  todo.text.toLowerCase().includes(searchValue.toLocaleLowerCase()));
+
+      const addTodo = (text) =>{
     
+        const newTodos = [...todos];
+        newTodos.push({
+            text: text,
+            completed: false,
+        })
+        saveTodos(newTodos);
+    
+      }
+
       const completeTodo = (text) =>{
         const todoIndex = todos.findIndex(todo => todo.text === text); 
     
@@ -46,6 +59,9 @@ function TodoProvider(props) {
             filteredTodos,
             completeTodo,
             removeTodo,
+            addTodo,
+            openModal,
+            setOpenModal,
         }}>
             {props.children}
         </TodoContext.Provider>
